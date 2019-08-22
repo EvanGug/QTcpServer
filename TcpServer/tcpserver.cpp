@@ -1,4 +1,4 @@
-#include "tcpserver.h"
+ï»¿#include "tcpserver.h"
 
 TcpServer::TcpServer(QWidget *parent)
 	: QWidget(parent)
@@ -9,7 +9,7 @@ TcpServer::TcpServer(QWidget *parent)
 	ui->setupUi(this);
 
 	ui->buttonSend->setEnabled(false);
-
+	ui->lineEditPort->setText("1471");
 	connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(slotNewConnection()));
 }
 
@@ -18,7 +18,9 @@ TcpServer::~TcpServer()
 	delete ui;
 }
 
-void TcpServer::slotDisconnect(){
+void TcpServer::slotDisconnect()
+{
+	qInfo() << QString::fromLocal8Bit("æ–­å¼€è¿žæŽ¥");
 	if (this->sender() == m_tcpSocket)
 	{
 		m_tcpSocket = 0;
@@ -30,7 +32,7 @@ void TcpServer::slotNewConnection()
 	m_tcpSocket = m_tcpServer->nextPendingConnection();
 	connect(m_tcpSocket, SIGNAL(readyRead()), this, SLOT(slotTcpReceive()));
 	connect(m_tcpSocket, SIGNAL(disconnected()), this, SLOT(slotDisconnect()));
-	qInfo() << QString::fromLocal8Bit("ÐÂµÄTCPÁ¬½Ó");
+	qInfo() << QString::fromLocal8Bit("æ–°çš„TCPè¿žæŽ¥");
 }
 
 void TcpServer::slotTcpReceive()
@@ -51,7 +53,7 @@ void TcpServer::on_buttonListen_clicked()
 	if (m_tcpServer->isListening())
 	{
 		m_tcpServer->close();
-		ui->buttonListen->setText(QString::fromLocal8Bit("¿ªÆô¼àÌý"));
+		ui->buttonListen->setText(QString::fromLocal8Bit("å¼€å¯ç›‘å¬"));
 		ui->buttonSend->setEnabled(false);
 	}
 	else
@@ -63,7 +65,7 @@ void TcpServer::on_buttonListen_clicked()
 		}
 		else
 		{
-			ui->buttonListen->setText(QString::fromLocal8Bit("¹Ø±Õ¼àÌý"));
+			ui->buttonListen->setText(QString::fromLocal8Bit("å…³é—­ç›‘å¬"));
 			ui->buttonSend->setEnabled(true);
 		}
 	}
